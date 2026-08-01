@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --runInBand --detectOpenHandles"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,9 @@
   "devDependencies": {
     "dotenv": "^17.4.2",
     "jest": "^30.0.0-rc.1",
-    "nodemon": "^3.1.14"
+    "mongodb-memory-server": "^11.2.0",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.2"
   },
   "allowScripts": {
     "mongoose@9.9.1": true,
