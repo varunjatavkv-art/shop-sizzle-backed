@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/varunjatavkv-art/shop-sizzle-backed#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "express": "^5.2.1",
+    "express-validator": "^7.3.2",
     "mongodb": "^7.5.0",
     "mongoose": "^9.9.1"
   },
@@ -35,6 +37,8 @@
     "mongoose@9.9.1": true,
     "jest@30.0.0-rc.1": true,
     "mongodb@7.5.0": true,
-    "dotenv@17.4.2": true
+    "dotenv@17.4.2": true,
+    "bcrypt@6.0.0": true,
+    "express-validator@7.3.2": true
   }
 }
