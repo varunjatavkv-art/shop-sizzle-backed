@@ -25,12 +25,14 @@
     "mongoose": "^9.9.1"
   },
   "devDependencies": {
+    "dotenv": "^17.4.2",
     "jest": "^30.0.0-rc.1",
     "nodemon": "^3.1.14"
   },
   "allowScripts": {
     "mongoose@9.9.1": true,
     "jest@30.0.0-rc.1": true,
-    "mongodb@7.5.0": true
+    "mongodb@7.5.0": true,
+    "dotenv@17.4.2": true
   }
 }

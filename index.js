@@ -1,10 +1,13 @@
 const express = require("express");
+const dotenv = require("dotenv");
+
 const { mongodbConnect } = require("./db_con/db");
 
-const app = express();
-const PORT = 8080;
+dotenv.config();
 
-mongodbConnect('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2')
-app.listen(PORT, () => {
-    console.log("Server is running on PORT: ", PORT);
+const app = express();
+
+mongodbConnect(process.env.MONGO_URI + process.env.DB_NAME);
+app.listen(process.env.PORT, () => {
+    console.log("Server is running on PORT: ", process.env.PORT);
 });
