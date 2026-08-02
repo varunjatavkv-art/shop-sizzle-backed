@@ -1,5 +1,8 @@
+// supertest is for testing http requests
 const request = require('supertest');
+// mongoose for database connection
 const mongoose = require('mongoose');
+// mongo memory server for creating temporary db for testing purpose
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const app = require('../app');
 
