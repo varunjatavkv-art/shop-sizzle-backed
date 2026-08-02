@@ -1,5 +1,5 @@
 const { body } = require('express-validator');
-const User = require("../model/userSchema");
+const User = require("../models/userSchema");
 
 const loginUserValidator = [
     body('email', 'Invalid does not Empty').not().isEmpty(),
