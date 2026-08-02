@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const userSchema = mongoose.Schema({
-    UserName: {
+    userName: {
         type: String,
         required: true,
         minlength:3,
@@ -38,14 +38,16 @@ const userSchema = mongoose.Schema({
 userSchema.pre("save" , async function (next){ 
     try {
         // check if paasword is already modified or not
-        if(this.password.isModified()) return next;
+        if(this.password.isModified) return next;
         // generate salt
         const salt = await bcrypt.genSalt(10);
         // hash the password
         this.password = await bcrypt.hash(this.password, salt);
-        next();
+        next;
     } catch (error) {
-        next(error);
+        console.log(error);
+        
+        next;
     }
 });
 

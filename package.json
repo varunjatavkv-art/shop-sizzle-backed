@@ -21,6 +21,8 @@
   "homepage": "https://github.com/varunjatavkv-art/shop-sizzle-backed#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
     "express": "^5.2.1",
     "express-validator": "^7.3.2",
     "jsonwebtoken": "^9.0.3",
@@ -42,6 +44,7 @@
     "bcrypt@6.0.0": true,
     "express-validator@7.3.2": true,
     "jsonwebtoken@9.0.3": true,
-    "mongodb-memory-server@11.2.0": true
+    "mongodb-memory-server@11.2.0": true,
+    "body-parser@2.3.0": true
   }
 }
