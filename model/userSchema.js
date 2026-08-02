@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const { registerUserValidator } = require("../validator/userValidator");
 
 const userSchema = mongoose.Schema({
     UserName: {
@@ -9,7 +8,7 @@ const userSchema = mongoose.Schema({
         minlength:3,
         maxlength:10,
     },
-    Email: {
+    email: {
         type: String,
         required: true,
         minlength:6,
@@ -27,7 +26,7 @@ const userSchema = mongoose.Schema({
         required: true,
         minlength: 6
     },
-    UserType: {
+    userType: {
         type: String,
         enum: ["0", '1'],
         comments: "0 - Client 1 - Admin"
@@ -36,7 +35,7 @@ const userSchema = mongoose.Schema({
     timestamps: true
 });
 
-userSchema.pre("save", registerUserValidator , async function (next){ 
+userSchema.pre("save" , async function (next){ 
     try {
         // check if paasword is already modified or not
         if(this.password.isModified()) return next;
