@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
+// user schema
 const userSchema = mongoose.Schema({
     userName: {
         type: String,
@@ -35,6 +36,7 @@ const userSchema = mongoose.Schema({
     timestamps: true
 });
 
+// pre method to hash password before form submission (registration)
 userSchema.pre("save" , async function (next){ 
     try {
         // check if paasword is already modified or not
@@ -51,11 +53,12 @@ userSchema.pre("save" , async function (next){
     }
 });
 
+// validating password with bcrypt compare method
 userSchema.methods.isValidatePassword = async function (password){
     try {
         return await bcrypt.compare(password, this.password);
     } catch (error) {
-        throw new Error('Password Comparison Failed !!');
+        return res.status(400).json({ message: "Invalid Password"});
     }
 };
 
