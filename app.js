@@ -24,8 +24,10 @@ app.get('/api/status', (req, res) => {
 app.use("/api", userRouter);
 
 // to listen (running) server on defined port
-app.listen(process.env.PORT, () => {
-    console.log("Server is running on PORT: ", process.env.PORT);
-});
-
+// Only start the server when this file is run directly (not when required by tests)
+if (require.main === module) {
+    app.listen(process.env.PORT, () => {
+      console.log("Server is running on PORT: ", process.env.PORT);
+    });
+  }
 module.exports = app;

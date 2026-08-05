@@ -1,4 +1,4 @@
-const User = require("../model/userSchema");
+const User = require("../models/userSchema");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
@@ -9,7 +9,7 @@ const signupUser = async function(req,res){
         // validating request
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            res.status(422).json({errors: errors.array()})
+            return res.status(422).json({errors: errors.array()})
         };
         // destructuring request body
         const { userName, email, mobile, password, userType } = req.body;
@@ -17,19 +17,19 @@ const signupUser = async function(req,res){
         // finding already registered user for checking
         const user = await User.findOne({ email });
         if(user){
-            return res.status(400).json({ message: "User already registered" });
+            return res.status(422).json({ message: "User already registered" });
         };
 
         // creating a new user
-        const newUser = await new User({ userName, email, mobile, password, userType });
-        newUser.save();
+        const newUser = new User({ userName, email, mobile, password, userType });
+        await newUser.save();
 
         // sending response as json with status 201 - created
         return res.status(201).json({message: "User Created Successfully !!"})
     } catch (error) {
         // logging for debugging and sending response with status 500 - Internal Server Error
         console.log("Registration Failed: ",error.message);
-        res.status(500).json({ message: "Internal Server Error !!" })
+        return res.status(500).json({ message: "Internal Server Error !!" })
     }
 }
 
@@ -37,10 +37,10 @@ const signupUser = async function(req,res){
 const loginUser = async function(req,res) {
     try {
          // validating request
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            res.status(422).json({errors: errors.array()})
-        };
+         const errors = validationResult(req);
+         if (!errors.isEmpty()) {
+             return res.status(422).json({errors: errors.array()})
+         };
         
         // destructuring request body
         const { email, password } = req.body;
@@ -48,17 +48,17 @@ const loginUser = async function(req,res) {
         // checking if user is registered or not
         const user = await User.findOne({ email });
         if(!user){
-            return res.status(404).json({ message: "User Not Found!!" });
+            return res.status(401).json({ message: "Invalid email or password" });
         };
 
         // matching password
         const isMatch = await user.isValidatePassword(password);
         if(!isMatch){
-            return res.status(400).json({ message: "Invalid Password!!" })
+            return res.status(401).json({ message: "Invalid email or password" })
         };
 
         // generating token with jwt sign
-        const token = jwt.sign({ user: user.userName }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ user: user.userName , id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         // setting cookies for browser
         res.cookie('token', token, {
@@ -69,7 +69,7 @@ const loginUser = async function(req,res) {
         })
 
         // sending response with status code 200 - success 
-        return res.status(200).json({ message: "login successfully"});
+        return res.status(200).json({ message: "login successfully", token});
 
     } catch (error) {
         // logging for debugging and sending response with status 500 - Internal Server Error
