@@ -12,7 +12,7 @@ describe("Authentication & Registration API Tests", () => {
 
   const mockUserData = {
     userName: "johnDoe",
-    email: "john@test.com",
+    email: "varun@test.com",
     mobile: "9876543210",
     password: "secret123",
     userType: "0",
@@ -51,7 +51,7 @@ describe("Authentication & Registration API Tests", () => {
         .post("/api/user/signup")
         .send(mockUserData);
 
-      expect(res.statusCode).toBe(400);
+      expect(res.status).toBe(422);
       expect(res.body).toHaveProperty("message", "User already registered");
     });
 
@@ -60,7 +60,7 @@ describe("Authentication & Registration API Tests", () => {
       // If the route has the validators, the controller will never see the request.
       const res = await request(app)
         .post("/api/user/signup")
-        .send({ email: "john@test.com" });
+        .send({ email: "varun@test.com" });
 
       expect(res.statusCode).toBe(422);
       expect(res.body).toHaveProperty("errors");
@@ -71,10 +71,11 @@ describe("Authentication & Registration API Tests", () => {
   // LOGIN
   // -------------------------------------------------------
   describe("POST /api/user/login", () => {
-    const credentials = { email: "john@test.com", password: "secret123" };
+    const credentials = { email: "varun@test.com", password: "secret123" };
 
     it("should authenticate and return a token", async () => {
       const mockUser = {
+        _id: "user_id_123",
         userName: "johnDoe",
         email: credentials.email,
         isValidatePassword: jest.fn().mockResolvedValue(true),

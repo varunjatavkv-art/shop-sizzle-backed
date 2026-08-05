@@ -9,7 +9,7 @@ const signupUser = async function(req,res){
         // validating request
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({errors: errors.array()})
+            return res.status(422).json({errors: errors.array()})
         };
         // destructuring request body
         const { userName, email, mobile, password, userType } = req.body;
@@ -17,7 +17,7 @@ const signupUser = async function(req,res){
         // finding already registered user for checking
         const user = await User.findOne({ email });
         if(user){
-            return res.status(400).json({ message: "User already registered" });
+            return res.status(422).json({ message: "User already registered" });
         };
 
         // creating a new user
@@ -29,7 +29,7 @@ const signupUser = async function(req,res){
     } catch (error) {
         // logging for debugging and sending response with status 500 - Internal Server Error
         console.log("Registration Failed: ",error.message);
-        res.status(500).json({ message: "Internal Server Error !!" })
+        return res.status(500).json({ message: "Internal Server Error !!" })
     }
 }
 
@@ -37,10 +37,10 @@ const signupUser = async function(req,res){
 const loginUser = async function(req,res) {
     try {
          // validating request
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-           return res.status(400).json({errors: errors.array()})
-        };
+         const errors = validationResult(req);
+         if (!errors.isEmpty()) {
+             return res.status(422).json({errors: errors.array()})
+         };
         
         // destructuring request body
         const { email, password } = req.body;
