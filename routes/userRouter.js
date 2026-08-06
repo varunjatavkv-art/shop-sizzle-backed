@@ -1,6 +1,6 @@
 const express = require("express");;
 const { loginUserValidator, registerUserValidator } = require("../validator/userValidator");
-const { loginUser, signupUser } = require("../controller/userController");
+const { loginUser, signupUser } = require("../controllers/userController");
 
 const router = express.Router();
 // route for signup with express validator
