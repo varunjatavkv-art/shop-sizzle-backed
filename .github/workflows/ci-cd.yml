@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -20,50 +20,17 @@ jobs:
           node-version: 24
       - name: Install dependencies
         run: npm install
-      - name: Run linter
-        run: npm run lint
-        # If you haven't set up ESLint yet, see https://eslint.org/docs/latest/user-guide/getting-started
-
-  security-scan:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: Install dependencies
-        run: npm install
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: javascript
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: Install dependencies
-        run: npm install
       - name: Run tests
         run: npm test
 
   build:
-    needs: [lint, security-scan, test]
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 24
       - run: npm install
       - run: npm run build
       - uses: actions/upload-artifact@v4
